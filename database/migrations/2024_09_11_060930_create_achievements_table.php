@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('organizer');
             $table->string('year');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
