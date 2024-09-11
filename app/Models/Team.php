@@ -6,18 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Division extends Model
+class Team extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'division_id',
         'name',
-        'slug',
-        'description',
+        'instagram',
+        'linkedin',
     ];
 
-    public function teams()
+    public function division()
     {
-        return $this->hasMany(Team::class);
+        return $this->belongsTo(Division::class);
     }
 }

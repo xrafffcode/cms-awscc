@@ -2,43 +2,39 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DivisionResource\Pages;
-use App\Models\Division;
+use App\Filament\Resources\TeamResource\Pages;
+use App\Filament\Resources\TeamResource\RelationManagers;
+use App\Models\Team;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-
-class DivisionResource extends Resource
+class TeamResource extends Resource
 {
-    protected static ?string $model = Division::class;
+    protected static ?string $model = Team::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $navigationGroup = 'Team Management';
-
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('division_id')
+                    ->relationship('division', 'name')
+                    ->required(),
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255)
-                    ->reactive()
-                    ->debounce(300)
-                    ->afterStateUpdated(function ($state, callable $set) {
-                        $set('slug', Str::slug($state));
-                    }),
-                Forms\Components\TextInput::make('slug')
-                    ->required()
                     ->maxLength(255),
-                Forms\Components\RichEditor::make('description')
-                    ->maxLength(65535)
-                    ->columnSpan(2),
+                Forms\Components\TextInput::make('instagram')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('linkedin')
+                    ->maxLength(255),
             ]);
     }
 
@@ -47,13 +43,13 @@ class DivisionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\TextColumn::make('description')
-                    ->html(true)
-                    ->limit(50)
-                    ->wrap(),
+                Tables\Columns\TextColumn::make('division.name'),
+                Tables\Columns\TextColumn::make('instagram'),
+                Tables\Columns\TextColumn::make('linkedin'),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('division', 'Division')
+                    ->relationship('division', 'name'),
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
@@ -78,9 +74,9 @@ class DivisionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDivisions::route('/'),
-            'create' => Pages\CreateDivision::route('/create'),
-            'edit' => Pages\EditDivision::route('/{record}/edit'),
+            'index' => Pages\ListTeams::route('/'),
+            'create' => Pages\CreateTeam::route('/create'),
+            'edit' => Pages\EditTeam::route('/{record}/edit'),
         ];
     }
 }
