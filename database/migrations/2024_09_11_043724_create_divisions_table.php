@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('divisions', function (Blueprint $table) {
             $table->id();
-            $table->string('thumbnail');
-            $table->string('title');
+            $table->string('name');
             $table->string('slug');
             $table->string('description');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('divisions');
     }
 };

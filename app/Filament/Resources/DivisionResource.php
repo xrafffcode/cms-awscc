@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ActivityResource\Pages;
-use App\Models\Activity;
+use App\Filament\Resources\DivisionResource\Pages;
+use App\Models\Division;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -11,34 +11,32 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
-class ActivityResource extends Resource
-{
-    protected static ?string $model = Activity::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+class DivisionResource extends Resource
+{
+    protected static ?string $model = Division::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationGroup = 'Management Team';
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->directory('activities')
+                Forms\Components\TextInput::make('name')
                     ->required()
-                    ->columnSpan(2),
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->debounce(300)
+                    ->maxLength(255)
                     ->reactive()
+                    ->debounce(300)
                     ->afterStateUpdated(function ($state, callable $set) {
                         $set('slug', Str::slug($state));
-                    })
-                    ->maxLength(255),
+                    }),
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\RichEditor::make('description')
-                    ->required()
                     ->maxLength(65535)
                     ->columnSpan(2),
             ]);
@@ -48,8 +46,7 @@ class ActivityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('slug'),
                 Tables\Columns\TextColumn::make('description')
                     ->html(true)
@@ -81,9 +78,9 @@ class ActivityResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListActivities::route('/'),
-            'create' => Pages\CreateActivity::route('/create'),
-            'edit' => Pages\EditActivity::route('/{record}/edit'),
+            'index' => Pages\ListDivisions::route('/'),
+            'create' => Pages\CreateDivision::route('/create'),
+            'edit' => Pages\EditDivision::route('/{record}/edit'),
         ];
     }
 }
