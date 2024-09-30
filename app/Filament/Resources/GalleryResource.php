@@ -25,11 +25,13 @@ class GalleryResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpan(2),
                 Forms\Components\FileUpload::make('image')
                     ->image()
                     ->directory('galleries')
-                    ->required(),
+                    ->required()
+                    ->columnSpan(2),
             ]);
     }
 
