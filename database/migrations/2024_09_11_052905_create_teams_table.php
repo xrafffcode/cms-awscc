@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('division_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('instagram');
-            $table->string('linkedin');
+            $table->string('instagram')->nullable();
+            $table->string('linkedin')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
