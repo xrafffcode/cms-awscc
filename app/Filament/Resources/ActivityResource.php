@@ -37,7 +37,7 @@ class ActivityResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\RichEditor::make('description')
+                Forms\Components\Textarea::make('description')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpan(2),

@@ -20,4 +20,9 @@ class Division extends Model
     {
         return $this->hasMany(Team::class);
     }
+
+    public function achievements()
+    {
+        return $this->hasMany(Achievement::class);
+    }
 }

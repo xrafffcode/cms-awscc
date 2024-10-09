@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('achievements', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('division_id')->constrained()->cascadeOnDelete();
             $table->string('thumbnail');
             $table->string('title');
-            $table->string('slug');
-            $table->text('description');
             $table->string('organizer');
-            $table->string('year');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -37,13 +37,16 @@ class EventResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('url')
+                    ->required()
+                    ->url()
+                    ->maxLength(255)
+                    ->columnSpan(2),
                 Forms\Components\RichEditor::make('description')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpan(2),
-                Forms\Components\DatePicker::make('start_date')
-                    ->required(),
-                Forms\Components\DatePicker::make('end_date')
+                Forms\Components\DateTimePicker::make('date')
                     ->required(),
                 Forms\Components\Select::make('status')
                     ->required()
@@ -52,7 +55,6 @@ class EventResource extends Resource
                         'published' => 'Published',
                         'archived' => 'Archived',
                     ])->default('draft')
-                    ->columnSpan(2),
             ]);
     }
 
@@ -63,8 +65,8 @@ class EventResource extends Resource
                 Tables\Columns\ImageColumn::make('thumbnail'),
                 Tables\Columns\TextColumn::make('title'),
                 Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\TextColumn::make('start_date'),
-                Tables\Columns\TextColumn::make('end_date'),
+                Tables\Columns\TextColumn::make('date'),
+                Tables\Columns\TextColumn::make('url'),
                 Tables\Columns\BadgeColumn::make('status')->colors([
                     'draft' => 'warning',
                     'published' => 'success',

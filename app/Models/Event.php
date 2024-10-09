@@ -15,8 +15,8 @@ class Event extends Model
         'title',
         'slug',
         'description',
-        'start_date',
-        'end_date',
+        'date',
+        'url',
         'status',
     ];
 }

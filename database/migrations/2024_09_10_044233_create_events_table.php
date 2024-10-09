@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('description');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->dateTime('date');
+            $table->string('url');
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->softDeletes();
             $table->timestamps();

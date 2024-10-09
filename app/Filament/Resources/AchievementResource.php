@@ -21,6 +21,9 @@ class AchievementResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('division_id')
+                    ->relationship('division', 'name')
+                    ->required(),
                 Forms\Components\FileUpload::make('thumbnail')
                     ->image()
                     ->directory('achievements')
@@ -33,18 +36,9 @@ class AchievementResource extends Resource
                         $set('slug', Str::slug($state));
                     })
                     ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\RichEditor::make('description')
-                    ->required()
-                    ->maxLength(65535),
                 Forms\Components\TextInput::make('organizer')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('year')
-                    ->required()
-                    ->maxLength(4),
             ]);
     }
 
@@ -52,15 +46,10 @@ class AchievementResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('division.name'),
                 Tables\Columns\ImageColumn::make('thumbnail'),
                 Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\TextColumn::make('description')
-                    ->html(true)
-                    ->limit(50)
-                    ->wrap(),
                 Tables\Columns\TextColumn::make('organizer'),
-                Tables\Columns\TextColumn::make('year'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

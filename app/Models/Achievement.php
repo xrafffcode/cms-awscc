@@ -11,11 +11,14 @@ class Achievement extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'division_id',
         'thumbnail',
         'title',
-        'slug',
-        'description',
         'organizer',
-        'year',
     ];
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
 }
